@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const { Schema } = mongoose
+const { Schema } = mongoose;
 
 const UserSchema = new Schema(
   {
@@ -21,6 +21,10 @@ const UserSchema = new Schema(
     password: {
       type: String,
       required: true,
+    },
+    avatarUrl: {
+      type: String,
+      required: false,
     },
   },
   {

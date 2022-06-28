@@ -76,14 +76,17 @@ routes.post("/", async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await User.create({
+    const newUser = await User.create({
       name,
       username,
       email,
       password: hashedPassword,
+      avatarUrl: "",
     });
 
-    return res.status(201).json({ message: "User created successfully." });
+    return res
+      .status(201)
+      .json({ userId: newUser._id, message: "User created successfully." });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: err.message });
@@ -119,6 +122,22 @@ routes.post("/login", async (req, res) => {
         .json({ message: "Email or password are incorrect." });
 
     return res.status(200).json({ message: "User logged in successfully." });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: err.message });
+  }
+});
+
+routes.patch("/avatar/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { newAvatarUrl } = req.body;
+
+    await User.findOneAndUpdate(id, {
+      avatarUrl: newAvatarUrl,
+    });
+
+    return res.status(200).json({ message: "Avatar was changed successfully." })
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: err.message });
