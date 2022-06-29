@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 config();
 
 import { routes as userRoutes } from './routes/user.js'
+import { routes as messageRoutes } from './routes/message.js'
 
 const connectionURL = `mongodb+srv://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@cluster0.pkc0f.mongodb.net/?retryWrites=true&w=majority`;
 
@@ -15,6 +16,7 @@ const PORT = process.env.PORT || 4000;
 app.use(cors());
 app.use(express.json());
 app.use("/api/users", userRoutes)
+app.use("/api/messages", messageRoutes)
 
 mongoose
   .connect(connectionURL, {

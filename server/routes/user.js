@@ -1,6 +1,8 @@
 import express from "express";
 import bcrypt from "bcrypt";
 
+import jwt from "jsonwebtoken";
+
 import User from "../models/User.js";
 
 import { verifyEmail } from "../utils/validators.js";
@@ -84,9 +86,19 @@ routes.post("/", async (req, res) => {
       avatarUrl: "",
     });
 
+    const token = jwt.sign(
+      {
+        id: newUser._id,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    );
+
     return res
       .status(201)
-      .json({ userId: newUser._id, message: "User created successfully." });
+      .json({ token, message: "User created successfully." });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: err.message });
@@ -121,7 +133,19 @@ routes.post("/login", async (req, res) => {
         .status(401)
         .json({ message: "Email or password are incorrect." });
 
-    return res.status(200).json({ message: "User logged in successfully." });
+    const token = jwt.sign(
+      {
+        id: userExists._id,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    );
+
+    return res
+      .status(200)
+      .json({ token, message: "User logged in successfully." });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: err.message });
@@ -137,7 +161,9 @@ routes.patch("/avatar/:id", async (req, res) => {
       avatarUrl: newAvatarUrl,
     });
 
-    return res.status(200).json({ message: "Avatar was changed successfully." })
+    return res
+      .status(200)
+      .json({ message: "Avatar was changed successfully." });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: err.message });
