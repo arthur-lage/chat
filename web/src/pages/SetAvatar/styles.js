@@ -10,6 +10,26 @@ export const Container = styled.div`
   background: #191919;
 `;
 
+export const SetAvatarWrapper = styled.div`
+  animation: fade 1s forwards ease-out;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5rem;
+
+  @keyframes fade {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+`;
+
 export const Title = styled.h1`
   font-size: 3.2rem;
   color: #fff;

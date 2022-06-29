@@ -15,6 +15,18 @@ export const FormWrapper = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+
+  animation: fade 1s forwards ease-out;
+
+  @keyframes fade {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
 `;
 
 export const Title = styled.h1`

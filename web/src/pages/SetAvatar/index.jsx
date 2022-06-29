@@ -9,16 +9,21 @@ import {
   SelectAvatar,
   Loading,
   LoadingText,
+  SetAvatarWrapper
 } from "./styles";
 
 import axios from "axios";
 
 import { api } from "../../services/api";
 
+import { useNavigate } from "react-router-dom";
+
 function SetAvatar() {
   const [avatars, setAvatars] = useState([]);
   const [isAvatarsLoading, setIsAvatarsLoading] = useState(true);
   const [selectedAvatar, setSelectedAvatar] = useState(0);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {
@@ -45,14 +50,16 @@ function SetAvatar() {
     fetchData();
   }, []);
 
-  const handleChangeAvatar = () => {
+  const handleChangeAvatar = async () => {
     const selectedAvatarUrl = avatars[selectedAvatar];
 
-    const userId = localStorage.getItem("chat::user_id")
+    const userId = localStorage.getItem("chat::user_id");
 
-    api.patch(`/users/avatar/${userId}`, {
+    await api.patch(`/users/avatar/${userId}`, {
       newAvatarUrl: selectedAvatarUrl,
     });
+
+    navigate("/chat");
   };
 
   return (
@@ -63,7 +70,7 @@ function SetAvatar() {
           <LoadingText>Loading avatars, please wait...</LoadingText>
         </>
       ) : (
-        <>
+        <SetAvatarWrapper>
           <Title>Choose your avatar</Title>
 
           <AvatarWrapper>
@@ -81,7 +88,7 @@ function SetAvatar() {
           <SelectAvatar onClick={handleChangeAvatar}>
             Select Avatar
           </SelectAvatar>
-        </>
+        </SetAvatarWrapper>
       )}
     </Container>
   );
