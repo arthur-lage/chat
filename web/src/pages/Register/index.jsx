@@ -25,6 +25,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 import { api } from "../../services/api";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 function Register() {
   const [name, setName] = useState("");
@@ -34,6 +35,8 @@ function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const navigate = useNavigate();
+
+  const { handleChangeToken } = useAuth();
 
   const toastOptions = {
     position: "bottom-right",
@@ -109,11 +112,12 @@ function Register() {
       })
       .then((res) => {
         toast.success("User created successfully.", toastOptions);
-        localStorage.setItem("chat::user_id", res.data.userId);
-        navigate("/set-avatar");
+
+        handleChangeToken(res.data.token);
       })
       .catch((err) => {
         toast.error(err.response.data.message, toastOptions);
+        console.log(err)
       });
   }
 

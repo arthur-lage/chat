@@ -16,15 +16,17 @@ import { PaperPlaneTilt } from "phosphor-react";
 
 import { api } from "../../services/api";
 
+import { useAuth } from "../../hooks/useAuth";
+
 export function ChatContainer({ currentChat }) {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messages, setMessages] = useState([]);
 
+  const { currentUser } = useAuth();
+
   async function handleSetMessage() {
-    await api.post("/messages", {
+    await api.post(`/messages/${currentChat._id}`, {
       message: currentMessage,
-      receiverId: currentChat._id,
-      senderId: localStorage.getItem("chat::user_id"),
     });
 
     setCurrentMessage("");
@@ -32,10 +34,7 @@ export function ChatContainer({ currentChat }) {
 
   useEffect(() => {
     async function fetchData() {
-      const res = await api.post("/messages/get", {
-        receiverId: currentChat._id,
-        senderId: localStorage.getItem("chat::user_id"),
-      });
+      const res = await api.get(`/messages/${currentChat._id}`);
 
       setMessages(res.data);
     }
@@ -56,13 +55,12 @@ export function ChatContainer({ currentChat }) {
             {messages.map((message) => (
               <Message
                 className={
-                  message.senderId === localStorage.getItem("chat::user_id")
-                    ? "sender"
-                    : "receiver"
+                  message.senderId === currentUser._id ? "sender" : "receiver"
                 }
                 key={message._id}
               >
                 <span>{message.message}</span>
+                <small>{message.createdAt}</small>
               </Message>
             ))}
           </>

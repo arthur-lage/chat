@@ -8,19 +8,22 @@ import { GlobalStyles } from "./globalStyles";
 
 import "react-toastify/dist/ReactToastify.css";
 import SetAvatar from "./pages/SetAvatar";
+import { AuthProvider } from "./contexts/AuthContext";
 
 function App() {
   return (
     <>
-      <GlobalStyles />
+      <AuthProvider>
+        <GlobalStyles />
 
-      <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/set-avatar" element={<SetAvatar />} />
-        <Route path="/chat" element={<Chat />} />
-      </Routes>
+        <Routes>
+          <Route path="/" element={<Navigate to="/login" />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/set-avatar" element={<SetAvatar />} />
+          <Route path="/chat" element={<Chat />} />
+        </Routes>
+      </AuthProvider>
     </>
   );
 }

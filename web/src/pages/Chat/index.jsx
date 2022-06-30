@@ -10,9 +10,13 @@ import { api } from "../../services/api";
 
 import { Power } from "phosphor-react";
 
+import { useAuth } from "../../hooks/useAuth";
+
 function Chat() {
   const [contacts, setContacts] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
+
+  const { setCurrentUser, handleChangeToken } = useAuth();
 
   useEffect(() => {
     async function fetchData() {
@@ -28,12 +32,17 @@ function Chat() {
     setCurrentChat(newChat);
   }
 
+  function handleLogout() {
+    handleChangeToken("");
+    setCurrentUser(null);
+  }
+
   return (
     <Container>
       <ChatWrapper>
         <Header>
           <Logo>Chat</Logo>
-          <LinkEl to="/login">
+          <LinkEl onClick={handleLogout} to="/login">
             <Power size={42} />
           </LinkEl>
         </Header>

@@ -19,11 +19,13 @@ import { ToastContainer, toast } from "react-toastify";
 import { api } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 
+import { useAuth } from '../../hooks/useAuth'
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const navigate = useNavigate()
+  const { handleChangeToken } = useAuth()
 
   const toastOptions = {
     position: "bottom-right",
@@ -70,10 +72,11 @@ function Login() {
       })
       .then((res) => {
         toast.success("User logged in successfully.", toastOptions);
-        navigate("/set-avatar")
+
+        handleChangeToken(res.data.token);
       })
       .catch((err) => {
-        toast.error(err.response.data.message, toastOptions);
+        console.log(err)
       });
   }
 

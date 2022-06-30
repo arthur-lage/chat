@@ -32,9 +32,12 @@ export const ContactName = styled.span`
 
 export const Messages = styled.div`
   grid-area: messages;
-  padding-left: 2rem;
+  padding-left: 3rem;
   padding-top: 1rem;
   overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 `;
 
 export const InputField = styled.div`
@@ -68,11 +71,12 @@ export const SendMessage = styled.button`
 
 export const Message = styled.div`
   width: 100%;
+  max-width: 40vw;
   display: flex;
 
   &.sender {
     justify-content: flex-end;
-    
+
     span {
       background: #324376;
     }
@@ -82,14 +86,28 @@ export const Message = styled.div`
     justify-content: flex-start;
 
     span {
-      background: #1e2742;
+      background: #cc130f;
     }
   }
 
   span {
+    border-radius: 0.3rem;
     padding: 1rem;
     color: #fff;
     width: max-content;
     font-size: 1.6rem;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+
+      top: 0;
+      left: -1rem;
+      border-top: 20px solid transparent;
+      border-bottom: 20px solid transparent;
+
+      border-right: 20px solid #cc130f;
+    }
   }
 `;

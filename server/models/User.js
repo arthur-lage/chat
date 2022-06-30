@@ -26,6 +26,10 @@ const UserSchema = new Schema(
       type: String,
       required: false,
     },
+    isAvatarSet: {
+      type: Boolean,
+      required: true,
+    },
   },
   {
     timestamps: true,

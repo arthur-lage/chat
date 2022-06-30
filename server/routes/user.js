@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
 import { verifyEmail } from "../utils/validators.js";
+import { Auth } from "../middlewares/Auth.js";
 
 const routes = express.Router();
 
@@ -14,6 +15,27 @@ routes.get("/", async (req, res) => {
     const users = await User.find({});
 
     return res.status(200).json(users);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: err.message });
+  }
+});
+
+routes.get("/auth", Auth, async (req, res) => {
+  try {
+    const { id } = req.user;
+
+    const currentUser = await User.findById(id);
+
+    const userInfo = {
+      id: currentUser._id,
+      name: currentUser.name,
+      username: currentUser.username,
+      avatarUrl: currentUser.avatarUrl,
+      isAvatarSet: currentUser.isAvatarSet,
+    };
+
+    return res.status(200).json(userInfo);
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: err.message });
@@ -84,6 +106,7 @@ routes.post("/", async (req, res) => {
       email,
       password: hashedPassword,
       avatarUrl: "",
+      isAvatarSet: false,
     });
 
     const token = jwt.sign(
@@ -152,13 +175,14 @@ routes.post("/login", async (req, res) => {
   }
 });
 
-routes.patch("/avatar/:id", async (req, res) => {
+routes.patch("/avatar", Auth, async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.user;
     const { newAvatarUrl } = req.body;
 
     await User.findOneAndUpdate(id, {
       avatarUrl: newAvatarUrl,
+      isAvatarSet: true,
     });
 
     return res

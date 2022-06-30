@@ -53,9 +53,7 @@ function SetAvatar() {
   const handleChangeAvatar = async () => {
     const selectedAvatarUrl = avatars[selectedAvatar];
 
-    const userId = localStorage.getItem("chat::user_id");
-
-    await api.patch(`/users/avatar/${userId}`, {
+    await api.patch(`/users/avatar`, {
       newAvatarUrl: selectedAvatarUrl,
     });
 

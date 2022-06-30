@@ -48,13 +48,16 @@ export const Avatar = styled.div`
   height: 17.5rem;
   border-radius: 50%;
   cursor: pointer;
+  transition: 0.2s ease;
 
   &.selected {
     border: 6px solid white;
+    padding: 0.5rem;
   }
 `;
 
 export const AvatarImage = styled.img`
+  transition: 0.2s ease;
   width: 100%;
   height: 100%;
   border-radius: 50%;
