@@ -26,20 +26,27 @@ import { v4 as uuidv4 } from "uuid";
 export function ChatContainer({ currentChat, socket }) {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [arrivalMessage, setArrivalMessage] = useState(null);
 
   const { currentUser } = useAuth();
 
   const scrollRef = useRef();
 
   async function handleSetMessage() {
+    if (currentMessage.length == 0) {
+      return;
+    }
+
     await api.post(`/messages/${currentChat._id}`, {
       message: currentMessage,
     });
 
     socket.current.emit("send-message", {
-      to: currentChat._id,
-      from: currentUser.id,
+      id: uuidv4(),
+      senderId: currentUser.id,
+      receiverId: currentChat._id,
       message: currentMessage,
+      createdAt: new Date(),
     });
 
     const msgs = [...messages];
@@ -58,6 +65,24 @@ export function ChatContainer({ currentChat, socket }) {
   }
 
   useEffect(() => {
+    if (socket.current) {
+      socket.current.on("receive-message", (msg) => {
+        setArrivalMessage({
+          id: msg.id,
+          senderId: msg.senderId,
+          receiverId: msg.receiverId,
+          message: msg.message,
+          createdAt: msg.createdAt,
+        });
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);
+  }, [arrivalMessage]);
+
+  useEffect(() => {
     if (currentChat) {
       async function fetchData() {
         const res = await api.get(`/messages/${currentChat._id}`);
@@ -70,7 +95,7 @@ export function ChatContainer({ currentChat, socket }) {
   }, [currentChat]);
 
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behaviour: "smooth" });
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   return (
@@ -80,7 +105,7 @@ export function ChatContainer({ currentChat, socket }) {
         <ContactName>{currentChat.username}</ContactName>
       </Header>
 
-      <Messages ref={scrollRef} key={uuidv4()}>
+      <Messages>
         {messages.length > 0 ? (
           <>
             {messages.map((message) => {
@@ -100,7 +125,8 @@ export function ChatContainer({ currentChat, socket }) {
                   className={
                     message.senderId === currentUser.id ? "sender" : "receiver"
                   }
-                  key={message._id}
+                  ref={scrollRef}
+                  key={message._id ? message._id : message.id}
                 >
                   <MessageContentWrapper className="messageContent">
                     <MessageText>{message.message}</MessageText>

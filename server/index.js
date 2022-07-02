@@ -53,9 +53,10 @@ io.on("connection", (socket) => {
   })
 
   socket.on("send-message", (data) => {
-    const sendUserSocket = onlineUsers.get(data.to)
+    const sendUserSocket = onlineUsers.get(data.receiverId)
+
     if(sendUserSocket) {
-      socket.to(sendUserSocket).emit("message-receive", data.msg)
+      socket.to(sendUserSocket).emit("receive-message", data)
     }
   })
 })
