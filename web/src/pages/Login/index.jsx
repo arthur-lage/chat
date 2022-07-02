@@ -12,20 +12,24 @@ import {
   LoginButton,
   Label,
   LinkToRegister,
+  Subtitle,
+  Illustration,
+  LoginForm
 } from "./styles";
 
 import { ToastContainer, toast } from "react-toastify";
 
-import { api } from "../../services/api";
-import { useNavigate } from "react-router-dom";
+import IllustrationImage from "../../assets/chat-illustration-1.svg";
 
-import { useAuth } from '../../hooks/useAuth'
+import { api } from "../../services/api";
+
+import { useAuth } from "../../hooks/useAuth";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { handleChangeToken } = useAuth()
+  const { handleChangeToken } = useAuth();
 
   const toastOptions = {
     position: "bottom-right",
@@ -76,7 +80,7 @@ function Login() {
         handleChangeToken(res.data.token);
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
       });
   }
 
@@ -93,37 +97,41 @@ function Login() {
   return (
     <Container>
       <FormWrapper>
-        <Title>Login</Title>
-        <Form>
-          <InputField>
-            <Label htmlFor="email">Email</Label>
-            <Input
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-              id="email"
-              type="email"
-              placeholder="Type your email..."
-            />
-          </InputField>
-          <InputField>
-            <Label htmlFor="password">Password</Label>
-            <Input
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-              id="password"
-              type="password"
-              placeholder="Type your password..."
-            />
-          </InputField>
+        <LoginForm>
+          <Title>Chat</Title>
+          <Subtitle>Login</Subtitle>
+          <Form>
+            <InputField>
+              <Label htmlFor="email">Email</Label>
+              <Input
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                id="email"
+                type="email"
+                placeholder="Type your email..."
+              />
+            </InputField>
+            <InputField>
+              <Label htmlFor="password">Password</Label>
+              <Input
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+                id="password"
+                type="password"
+                placeholder="Type your password..."
+              />
+            </InputField>
 
-          <LoginButton onClick={handleForm} type="submit">
-            Login
-          </LoginButton>
+            <LoginButton onClick={handleForm} type="submit">
+              Login
+            </LoginButton>
 
-          <LinkToRegister to="/register">
-            Don't have an account yet? Create one
-          </LinkToRegister>
-        </Form>
+            <LinkToRegister to="/register">
+              Don't have an account yet? Create one
+            </LinkToRegister>
+          </Form>
+        </LoginForm>
+        <Illustration src={IllustrationImage} />
       </FormWrapper>
 
       <ToastContainer />
