@@ -180,7 +180,9 @@ routes.patch("/avatar", Auth, async (req, res) => {
     const { id } = req.user;
     const { newAvatarUrl } = req.body;
 
-    await User.findOneAndUpdate(id, {
+    console.log(id)
+
+    await User.findByIdAndUpdate(id, {
       avatarUrl: newAvatarUrl,
       isAvatarSet: true,
     });

@@ -11,7 +11,11 @@ routes.get("/:receiverId", Auth, async (req, res) => {
     const { receiverId } = req.params;
 
     const messages = await Message.find({
-      users: [id, receiverId],
+      users: {
+        $all: [id, receiverId],
+      },
+    }).sort({
+      updatedAt: 1,
     });
 
     return res.status(200).json(messages);
@@ -26,10 +30,6 @@ routes.post("/:receiverId", Auth, async (req, res) => {
     const { id } = req.user;
     const { receiverId } = req.params;
     const { message } = req.body;
-
-    console.log("Id", req.user)
-    console.log("Receiver id", receiverId)
-    console.log("Message", message)
 
     if (id === receiverId)
       return res

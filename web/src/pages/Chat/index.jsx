@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { Container, ChatWrapper, LinkEl, Logo, Header, Main } from "./styles";
 
@@ -11,12 +11,14 @@ import { api } from "../../services/api";
 import { Power } from "phosphor-react";
 
 import { useAuth } from "../../hooks/useAuth";
+import { io } from "socket.io-client";
 
 function Chat() {
+  const socket = useRef();
   const [contacts, setContacts] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
 
-  const { setCurrentUser, handleChangeToken } = useAuth();
+  const { currentUser, setCurrentUser, handleChangeToken } = useAuth();
 
   useEffect(() => {
     async function fetchData() {
@@ -27,6 +29,13 @@ function Chat() {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (currentUser) {
+      socket.current = io("http://localhost:4000");
+      socket.current.emit("add-user", currentUser.id);
+    }
+  }, [currentUser]);
 
   function handleChangeChat(newChat) {
     setCurrentChat(newChat);
@@ -49,7 +58,7 @@ function Chat() {
         <Main>
           <ContactList changeChat={handleChangeChat} contacts={contacts} />
           {currentChat ? (
-            <ChatContainer currentChat={currentChat} />
+            <ChatContainer socket={socket} currentChat={currentChat} />
           ) : (
             <WelcomeToChat />
           )}

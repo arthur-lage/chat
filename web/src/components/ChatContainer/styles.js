@@ -32,12 +32,21 @@ export const ContactName = styled.span`
 
 export const Messages = styled.div`
   grid-area: messages;
-  padding-left: 3rem;
+  padding: 1rem 3rem;
   padding-top: 1rem;
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  max-height: 55vh;
+
+  &::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #fff;
+  }
 `;
 
 export const InputField = styled.div`
@@ -59,6 +68,10 @@ export const MessageInput = styled.input`
   color: #fff;
   outline: none;
   border-radius: 0.4rem;
+
+  &::placeholder {
+    color: #fff;
+  }
 `;
 
 export const SendMessage = styled.button`
@@ -71,43 +84,67 @@ export const SendMessage = styled.button`
 
 export const Message = styled.div`
   width: 100%;
-  max-width: 40vw;
   display: flex;
 
   &.sender {
     justify-content: flex-end;
 
-    span {
+    .messageContent {
       background: #324376;
+
+      &::after {
+        content: "";
+        position: absolute;
+
+        top: 0;
+        right: -1rem;
+        border-top: 20px solid transparent;
+        border-bottom: 20px solid transparent;
+
+        border-left: 20px solid #324376;
+      }
     }
   }
 
   &.receiver {
     justify-content: flex-start;
 
-    span {
+    .messageContent {
       background: #cc130f;
+
+      &::after {
+        content: "";
+        position: absolute;
+
+        top: 0;
+        left: -1rem;
+        border-top: 20px solid transparent;
+        border-bottom: 20px solid transparent;
+
+        border-right: 20px solid #cc130f;
+      }
     }
   }
+`;
 
-  span {
-    border-radius: 0.3rem;
-    padding: 1rem;
-    color: #fff;
-    width: max-content;
-    font-size: 1.6rem;
-    position: relative;
+export const MessageContentWrapper = styled.div`
+  border-radius: 0.3rem;
+  padding: 1.5rem;
+  width: max-content;
+  position: relative;
+`;
 
-    &::after {
-      content: "";
-      position: absolute;
+export const MessageText = styled.span`
+  color: #fff;
+  font-size: 1.6rem;
+  margin-right: 3rem;
+`;
 
-      top: 0;
-      left: -1rem;
-      border-top: 20px solid transparent;
-      border-bottom: 20px solid transparent;
-
-      border-right: 20px solid #cc130f;
-    }
-  }
+export const MessageTime = styled.span`
+  font-size: 1.4rem;
+  color: #eaeaea;
+  position: absolute;
+  bottom: 0.45rem;
+  z-index: 1;
+  right: 0.45rem;
 `;

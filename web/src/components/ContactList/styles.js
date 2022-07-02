@@ -11,6 +11,10 @@ export const Container = styled.div`
   scroll-behavior: smooth;
 
   &::-webkit-scrollbar {
-    display: none;
+    width: 2px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #fff;
   }
 `;
