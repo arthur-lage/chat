@@ -9,6 +9,9 @@ export const Container = styled.div`
   max-width: 25vw;
   overflow-y: scroll;
   scroll-behavior: smooth;
+  background: #3b3841;
+  border-radius: 0.6rem 0 0.6rem 0.6rem;
+  padding: 0.5rem;
 
   &::-webkit-scrollbar {
     width: 2px;

@@ -16,13 +16,16 @@ export const Header = styled.div`
   display: flex;
   align-items: center;
   grid-area: header;
-`;
+  background: #3b3841;
+  border-radius: 0 0.6rem 0.6rem 0;
+  `;
 
 export const ContactImage = styled.img`
   width: 5.4rem;
   height: 5.4rem;
   border-radius: 50%;
   margin-right: 1.5rem;
+  box-shadow: 0px 0px 2px 3px rgba(0, 0, 0, 0.2);
 `;
 
 export const ContactName = styled.span`

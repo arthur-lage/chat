@@ -6,7 +6,8 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #191919;
+  gap: 2rem;
+  background: #161517;
 `;
 
 export const ChatWrapper = styled.div`
@@ -16,25 +17,13 @@ export const ChatWrapper = styled.div`
   height: 90vh;
 `;
 
-export const Logo = styled.h2`
-  font-size: 3.2rem;
-  color: #fff;
-`;
-
-export const Header = styled.header`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 2.5rem;
-`;
-
 export const Main = styled.main`
   display: flex;
   padding: 1rem;
-  border-radius: 1rem;
+  border-radius: 0.4rem;
   box-shadow: 0px 0px 15px 10px rgba(0, 0, 0, 0.15);
   width: 100%;
-  background: #2d253b;
+  background: #2b292b;
   height: 100%;
 `;
 

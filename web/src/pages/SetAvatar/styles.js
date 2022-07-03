@@ -7,7 +7,7 @@ export const Container = styled.div`
   justify-content: center;
   gap: 5rem;
   min-height: 100vh;
-  background: #191919;
+  background: #161517;
 `;
 
 export const SetAvatarWrapper = styled.div`

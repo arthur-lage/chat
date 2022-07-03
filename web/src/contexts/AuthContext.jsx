@@ -51,6 +51,10 @@ export function AuthProvider({ children }) {
         navigate("/chat");
       }
     }
+
+    if(!currentUser) {
+      navigate("/login")
+    }
   }, [currentUser]);
 
   const value = { setCurrentUser, currentUser, token, handleChangeToken };

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import { Container, ChatWrapper, LinkEl, Logo, Header, Main } from "./styles";
+import { Container, ChatWrapper, Main } from "./styles";
 
 import { ContactList } from "../../components/ContactList";
 import { ChatContainer } from "../../components/ChatContainer";
@@ -8,15 +8,17 @@ import { WelcomeToChat } from "../../components/WelcomeToChat";
 
 import { api } from "../../services/api";
 
-import { Power } from "phosphor-react";
+import { ChatSidebar } from "../../components/ChatSidebar";
 
 import { useAuth } from "../../hooks/useAuth";
 import { io } from "socket.io-client";
 
 function Chat() {
   const socket = useRef();
+
   const [contacts, setContacts] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
+  const [currentTab, setCurrentTab] = useState(0);
 
   const { currentUser, setCurrentUser, handleChangeToken } = useAuth();
 
@@ -41,20 +43,17 @@ function Chat() {
     setCurrentChat(newChat);
   }
 
-  function handleLogout() {
-    handleChangeToken("");
-    setCurrentUser(null);
+  function handleChangeCurrentTab(newTab) {
+    setCurrentTab(newTab);
   }
 
   return (
     <Container>
+      <ChatSidebar
+        currentTab={currentTab}
+        changeCurrentTab={handleChangeCurrentTab}
+      />
       <ChatWrapper>
-        <Header>
-          <Logo>Chat</Logo>
-          <LinkEl onClick={handleLogout} to="/login">
-            <Power size={42} />
-          </LinkEl>
-        </Header>
         <Main>
           <ContactList changeChat={handleChangeChat} contacts={contacts} />
           {currentChat ? (

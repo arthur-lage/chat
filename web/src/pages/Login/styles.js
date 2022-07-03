@@ -74,11 +74,11 @@ export const Input = styled.input`
   width: 100%;
   height: 5.5rem;
   outline: none;
-  border: 2px solid #02735E;
+  border: 2px solid #02735e;
   transition: 0.15s ease;
 
   &:focus {
-    border-color: #0DA085;
+    border-color: #0da085;
   }
 
   &::placeholder {
@@ -96,7 +96,7 @@ export const LoginButton = styled.button`
   margin-top: 2rem;
   border: 0;
   letter-spacing: 0.05rem;
-  background: #02735E;
+  background: #02735e;
   font-weight: 500;
   font-size: 1.9rem;
 
@@ -123,6 +123,6 @@ export const LoginForm = styled.main`
 
 export const Illustration = styled.img`
   width: 50rem;
-  position:relative ;
+  position: relative;
   right: 20rem;
 `;
