@@ -67,7 +67,7 @@ routes.post("/", async (req, res) => {
       return res
         .status(400)
         .json({ message: "Username should have at least 5 characters!" });
-    if (username.length > 16)
+    if (username.length > 11)
       return res
         .status(400)
         .json({ message: "Username should have up to 16 characters!" });
@@ -179,8 +179,6 @@ routes.patch("/avatar", Auth, async (req, res) => {
   try {
     const { id } = req.user;
     const { newAvatarUrl } = req.body;
-
-    console.log(id)
 
     await User.findByIdAndUpdate(id, {
       avatarUrl: newAvatarUrl,

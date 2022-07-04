@@ -13,6 +13,7 @@ import {
   MessageContentWrapper,
   MessageText,
   MessageTime,
+  NoMessagesWarning
 } from "./styles";
 
 import { PaperPlaneTilt } from "phosphor-react";
@@ -32,7 +33,21 @@ export function ChatContainer({ currentChat, socket }) {
 
   const scrollRef = useRef();
 
+  window.addEventListener("keydown", (e) => {
+    const messageInputEl = document.querySelector("#message-input");
+
+    if (e.key == "Enter") {
+      if (document.activeElement === messageInputEl) {
+        handleSetMessage();
+      }
+    }
+  });
+
   async function handleSetMessage() {
+    const messageInputEl = document.querySelector("#message-input");
+
+    messageInputEl.focus();
+
     if (currentMessage.length == 0) {
       return;
     }
@@ -102,7 +117,7 @@ export function ChatContainer({ currentChat, socket }) {
     <Container>
       <Header>
         <ContactImage src={currentChat.avatarUrl} />
-        <ContactName>{currentChat.username}</ContactName>
+        <ContactName>@{currentChat.username}</ContactName>
       </Header>
 
       <Messages>
@@ -138,13 +153,17 @@ export function ChatContainer({ currentChat, socket }) {
             })}
           </>
         ) : (
-          <h2>No messages</h2>
+          <NoMessagesWarning>
+            <span>There are no messages between you and @{currentChat.username} yet!</span>
+          </NoMessagesWarning>
         )}
       </Messages>
 
       <InputField>
         <MessageInput
           type="text"
+          autoComplete="off"
+          id="message-input"
           value={currentMessage}
           placeholder="Type your message..."
           onChange={(e) => setCurrentMessage(e.target.value)}
