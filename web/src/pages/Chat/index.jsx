@@ -12,6 +12,7 @@ import { ChatSidebar } from "../../components/ChatSidebar";
 
 import { useAuth } from "../../hooks/useAuth";
 import { io } from "socket.io-client";
+import { ProfileTab } from "../../components/ProfileTab";
 
 function Chat() {
   const socket = useRef();
@@ -55,11 +56,21 @@ function Chat() {
       />
       <ChatWrapper>
         <Main>
-          <ContactList changeChat={handleChangeChat} contacts={contacts} />
-          {currentChat ? (
-            <ChatContainer socket={socket} currentChat={currentChat} />
-          ) : (
-            <WelcomeToChat />
+          {currentTab === 0 && (
+            <>
+              <ContactList changeChat={handleChangeChat} contacts={contacts} />
+              {currentChat ? (
+                <ChatContainer socket={socket} currentChat={currentChat} />
+              ) : (
+                <WelcomeToChat />
+              )}
+            </>
+          )}
+
+          {currentTab === 2 && (
+            <>
+              <ProfileTab />
+            </>
           )}
         </Main>
       </ChatWrapper>

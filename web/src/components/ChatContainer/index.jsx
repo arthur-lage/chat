@@ -13,7 +13,7 @@ import {
   MessageContentWrapper,
   MessageText,
   MessageTime,
-  NoMessagesWarning
+  NoMessagesWarning,
 } from "./styles";
 
 import { PaperPlaneTilt } from "phosphor-react";
@@ -33,7 +33,7 @@ export function ChatContainer({ currentChat, socket }) {
 
   const scrollRef = useRef();
 
-  window.addEventListener("keydown", (e) => {
+  function sendMessageByPressingEnter(e) {
     const messageInputEl = document.querySelector("#message-input");
 
     if (e.key == "Enter") {
@@ -41,7 +41,7 @@ export function ChatContainer({ currentChat, socket }) {
         handleSetMessage();
       }
     }
-  });
+  }
 
   async function handleSetMessage() {
     const messageInputEl = document.querySelector("#message-input");
@@ -110,7 +110,8 @@ export function ChatContainer({ currentChat, socket }) {
   }, [currentChat]);
 
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    scrollRef.current?.scrollIntoView({});
+    // scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   return (
@@ -154,7 +155,9 @@ export function ChatContainer({ currentChat, socket }) {
           </>
         ) : (
           <NoMessagesWarning>
-            <span>There are no messages between you and @{currentChat.username} yet!</span>
+            <span>
+              There are no messages between you and @{currentChat.username} yet!
+            </span>
           </NoMessagesWarning>
         )}
       </Messages>
@@ -166,6 +169,7 @@ export function ChatContainer({ currentChat, socket }) {
           id="message-input"
           value={currentMessage}
           placeholder="Type your message..."
+          onKeyDown={sendMessageByPressingEnter}
           onChange={(e) => setCurrentMessage(e.target.value)}
         />
         <SendMessage onClick={handleSetMessage}>

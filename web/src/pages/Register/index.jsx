@@ -29,7 +29,6 @@ import IllustrationImage from "../../assets/chat-illustration-1.svg";
 import { ToastContainer, toast } from "react-toastify";
 
 import { api } from "../../services/api";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 
 function Register() {
@@ -38,8 +37,6 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-  const navigate = useNavigate();
 
   const { handleChangeToken } = useAuth();
 
